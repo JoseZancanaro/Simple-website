@@ -1,31 +1,47 @@
-const Title = () => {
+import { useState } from 'react'
+import { Language as LanguageIcon} from '@mui/icons-material'
+
+const Title = ({ language }) => {
   return (
     <div>
       <div className='pt-8 text-4xl font-mono font-bold text-center text-slate-800 dark:text-stone-200'>
         José Carlos Zancanaro
       </div>
       <div className='pt-2 text-base font-mono font-semibold text-center text-slate-800 dark:text-stone-200'>
-        Computer Scientist | Software Developer
+        {language === 'en' 
+          ? 'Computer Scientist | Software Developer' 
+          : 'Cientista da Computação | Desenvolvedor de Software'
+        }
       </div>
     </div>
   )
 }
 
-const About = () => {
+const About = ({ language }) => {
   return (
     <div className='grid grid-cols-3'>
       <p className='col-start-2 indent-10 text-justify text-lg font-mono font-medium text-slate-900 dark:text-stone-300'>
-        Computing enthusiast, with great interest in the areas of Programming, Artificial Intelligence and Digital Games. 
-        <span className='font-semibold dark:font-extrabold'> Computer Scientist</span> adept at software development. 
-        Proficient in a wide range of <span className='font-semibold dark:font-extrabold'>technologies and programming languages</span>. 
-        Able to effectively self-manage during independent projects, as well as collaborate in a team environment. 
-        With great interest in <span className='font-semibold dark:font-extrabold'>learning more</span>,  I am eager to expand my knowledge and seek new opportunities in the various areas of Computer Science.
+        {language === 'en' ? (
+          <div>
+            Computing enthusiast, with great interest in the areas of Programming, Artificial Intelligence, and Digital Games. 
+            Bachelor's Degree in <span className='font-semibold dark:font-extrabold'>Computer Science</span>, passionate about software development and constantly seeking new technologies and challenges. 
+            With experience in many <span className='font-semibold dark:font-extrabold'>programming languages and tools</span>, I excel in both independent projects and collaborative work. 
+            Always in pursuit of <span className='font-semibold dark:font-extrabold'>continuous learning and new opportunities</span> to expand my knowledge in the various fields of Computer Science.
+          </div>
+        ) : (
+          <div>
+            Entusiasta da computação, com grande interesse em áreas como Programação, Inteligência Artificial e Jogos Digitais. 
+            Bacharel em <span className='font-semibold dark:font-extrabold'>Ciência da Computação</span>, sou apaixonado pelo desenvolvimento de software e constantemente busco novas tecnologias e desafios. 
+            Com experiência em diversas <span className='font-semibold dark:font-extrabold'>linguagens de programação e tecnologias</span>, me destaco tanto em projetos independentes quanto em trabalhos colaborativos. 
+            Estou sempre em busca de <span className='font-semibold dark:font-extrabold'>aprendizado contínuo e novas oportunidades</span> para expandir meus conhecimentos nas diversas áreas da Ciência da Computação.
+          </div>
+        )}
       </p>
     </div>
   )
 }
 
-const Social = () => {
+const Social = ({ language }) => {
   return (
     <div className='grid grid-cols-3'>
       <div className='col-start-2 flex flex-row space-x-8'>
@@ -46,12 +62,14 @@ const Social = () => {
           <span className='text-sm font-mono font-semibold text-slate-900 dark:text-stone-300'>GitHub</span>
         </div>
         <div className='flex flex-col gap-2'>
-          <a title='Resume' href='https://drive.google.com/drive/folders/1JCDjAxlE3xBHGoUFj5rTKENnQqqXrYOW?usp=sharing' target='_blank' rel='noopener noreferrer'>
+          <a title='Resume' href={language === 'en' ? 'https://drive.google.com/file/d/11Rh__qMR_YXQmSAdBwQovoJ7KbsFDcSk/view?usp=drive_link' : 'https://drive.google.com/file/d/1H1EuzlCdsSMKDOrXILtnWIF_-wT2uJXu/view?usp=drive_link'} target='_blank' rel='noopener noreferrer'>
             <svg className='fill-slate-900 dark:fill-stone-300' width='32' height='32' viewBox='0 0 24 24'>
               <path d="M7 22v-16h14v7.543c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-5.362zm16-7.614v-10.386h-18v20h8.189c3.163 0 9.811-7.223 9.811-9.614zm-10 1.614h-4v-1h4v1zm6-4h-10v1h10v-1zm0-3h-10v1h10v-1zm1-7h-17v19h-2v-21h19v2z"/>
             </svg>
           </a>
-          <span className='text-sm font-mono font-semibold text-slate-900 dark:text-stone-300'>Resume</span>
+          <span className='text-sm font-mono font-semibold text-slate-900 dark:text-stone-300'>
+            {language === 'en' ? 'Resume' : 'Currículo'}
+          </span>
         </div>
       </div>
     </div>
@@ -59,11 +77,25 @@ const Social = () => {
 }
 
 const SimpleWebsite = () => {
+  const [language, setLanguage] = useState('en');
+
+  const changeLanguage = () => {
+    setLanguage(language === 'en' ? 'pt' : 'en');
+  };
+
   return (
     <div className='flex flex-col space-y-8 min-h-screen bg-white dark:bg-zinc-900'>
-      <Title/>
-      <About/>
-      <Social/>
+      <div className='absolute top-4 right-16 flex space-x-4'>
+        <button onClick={changeLanguage} className='flex items-center'>
+          <LanguageIcon className='h-8 w-8 text-slate-900 dark:text-stone-300'/>
+          <span className='ml-1 text-sm font-mono font-semibold text-slate-900 dark:text-stone-300'>
+            {language === 'en' ? 'EN-US' : 'PT-BR'}
+          </span>
+        </button>
+      </div>
+      <Title language={language}/>
+      <About language={language}/>
+      <Social language={language}/>
     </div>
   )
 }
